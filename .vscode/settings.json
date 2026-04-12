@@ -1,0 +1,4 @@
+{
+    "python.defaultInterpreterPath": "/home/facundozubeldia/Documentos/fz_workspace/.venv/bin/python",
+    "jupyter.notebookEditor.defaultKernel": "fz_workspace"
+}
