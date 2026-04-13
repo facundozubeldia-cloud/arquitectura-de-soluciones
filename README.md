@@ -16,6 +16,7 @@ Persistencia: Base de datos relacional SQLite (data/sentimientos.db) que asegura
 
 Visualización (BI): Dashboards interactivos desarrollados en Streamlit utilizando gráficos de Plotly.
 
+```mermaid
 flowchart TD
     U["👤 Usuario (config.yaml)"] --> P["🐍 Orquestador Python"]
     P --> API["🌐 API de X (v2)"]
@@ -32,6 +33,7 @@ flowchart TD
     style P fill:#90ee90
     style DB fill:#d3d3d3
     style D1,D2 fill:#dda0dd
+```
 
 🚀 Guía de Ejecución
 1. Preparación del Entorno
