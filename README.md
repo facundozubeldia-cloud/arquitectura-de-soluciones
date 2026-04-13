@@ -40,7 +40,7 @@ flowchart TD
 # Crear y activar entorno virtual
 python -m venv .venv
 source .venv/bin/activate  # En Linux/Pop!_OS
-# .\.venv\Scripts\activate   # En Windows
+.\.venv\Scripts\activate   # En Windows
 
 # Instalación de dependencias
 pip install -r requirements.txt
