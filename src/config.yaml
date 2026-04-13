@@ -6,7 +6,7 @@ analisis_masivo:
 # 2. Configuración de Análisis Unitario (analizador_unitario.py)
 # Solo tenés que pegar la URL acá para que el script la tome
 analisis_unitario:
-  url_objetivo: "https://x.com/ANTICAPITALIS9A/status/2043089714643652807"
+  url_objetivo: "https://x.com/diegomcamo/status/2043436166939058205"
 
 # 3. Estética compartida para ambos Dashboards
 estetica:

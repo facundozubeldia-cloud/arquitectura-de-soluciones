@@ -1,76 +1,87 @@
-# Activar el entorno virtual
-source ../.venv/bin/activate
-# Analisis de Sentimientos de X
+📊 ARQUITECTURA-DE-SOLUCIONES: Análisis de Sentimientos X
+Materia: Arquitectura de Soluciones
 
-**Materia:** Arquitectura de Soluciones
+Alumnos: Facundo Zubeldia - Gonzalo Martín González Nastovich
 
-**Alumnos:** Facundo Zubeldia - Gonzalo Martín González Nastovich
+1. Objetivo del Proyecto
+Desarrollar un flujo de datos (Pipeline) dinámico y automático para monitorear la percepción pública en la plataforma X. La solución permite tanto el seguimiento de tendencias masivas por palabras clave como el análisis de impacto detallado de publicaciones individuales y sus respectivas respuestas (replies).
 
-## 1. Objetivo del Proyecto
-Desarrollar un flujo de datos (Pipeline) automático para monitorear la percepción pública en la red X, con un historial móvil de 30 días y actualizaciones semanales, cumpliendo con la normativa legal argentina.
+2. Componentes de la Arquitectura
+🏗️ Capas del Sistema
+Ingesta (ETL): Scripts en Python que extraen datos mediante la API v2 de X, manejando autenticación por Bearer Token. Se han desarrollado dos puntos de entrada: masivo y unitario.
 
-## 2. Componentes de la Arquitectura:
-   
-   * Ingesta: Script Python utilizando la API v2 de X.
-   
-   * Procesamiento: Clasificación de sentimientos (Positivo, Neutro, Negativo) mediante modelos de NLP.
-   
-   * Persistencia: Base de datos relacional SQLite para evitar duplicados y mantener integridad.
-   
-   * Visualización: Dashboard interactivo basado en Plotly, desplegado en infraestructura de GitHub Pages.
+Procesamiento: Clasificación de sentimientos (Positivo, Neutro, Negativo) y estructuración de datos en tiempo real.
 
-##  Arquitectura de la Solución
-```mermaid
+Persistencia: Base de datos relacional SQLite (data/sentimientos.db) que asegura la integridad, evita duplicidad de registros y permite el almacenamiento de los textos originales para auditoría.
+
+Visualización (BI): Dashboards interactivos desarrollados en Streamlit utilizando gráficos de Plotly.
+
 flowchart TD
-    %% Nodos Externos
-    U["👤 Usuario/Config"]
-    API["🌐 API de X (v2)"]
-    ML["🧠 Modelo NLP"]
-    DB[("🗄️ Base de Datos")]
-    D["📊 Dashboard"]
-
-    %% Proceso Principal (Script)
-    subgraph S ["🐍 Script Python (Orquestador)"]
-        direction TB
-        P["⚙️ Config: Tema y Fechas\n(Inicial 1 mes / Semanal 7d)"]
-        E["📥 Extractor API v2"]
-        C["🧹 Limpieza y Anonimización\n(Ley 25.326)"]
-        A["🎭 Análisis de Sentimiento"]
+    U["👤 Usuario (config.yaml)"] --> P["🐍 Orquestador Python"]
+    P --> API["🌐 API de X (v2)"]
+    API --> P
+    P --> A["🎭 Análisis de Sentimiento"]
+    A -->|"Carga Incremental"| DB[("🗄️ SQLite DB")]
+    
+    subgraph V ["Salidas de Visualización"]
+        DB --> D1["📊 Dashboard Tendencias"]
+        DB --> D2["🎯 Reporte Impacto Individual"]
     end
 
-    %% Flujo de datos
-    U --> P
-    P --> E
-    E <--> API
-    E --> C
-    C --> A
-    A <--> ML
-    A -->|"Carga Incremental"| DB
-    DB --> D
+    style U fill:#add8e6
+    style P fill:#90ee90
+    style DB fill:#d3d3d3
+    style D1,D2 fill:#dda0dd
 
-    %% Estilos
-    classDef input fill:#add8e6,stroke:#333,stroke-width:2px
-    classDef process fill:#90ee90,stroke:#333,stroke-width:2px
-    classDef external fill:#ffff00,stroke:#333,stroke-width:2px
-    classDef analysis fill:#ffa500,stroke:#333,stroke-width:2px
-    classDef storage fill:#d3d3d3,stroke:#333,stroke-width:2px
-    classDef output fill:#dda0dd,stroke:#333,stroke-width:2px
+🚀 Guía de Ejecución
+1. Preparación del Entorno
+# Crear y activar entorno virtual
+python -m venv .venv
+source .venv/bin/activate  # En Linux/Pop!_OS
+# .\.venv\Scripts\activate   # En Windows
 
-    class U input
-    class P,E,C,A process
-    class API external
-    class ML analysis
-    class DB storage
-    class D output
-```
-## 3. Automatización
-Se implementó un desacoplamiento mediante config.yaml, permitiendo la reusabilidad del código. La ejecución se gestiona mediante un archivo de procesamiento por lotes (.bat) integrable al programador de tareas del sistema operativo.
+# Instalación de dependencias
+pip install -r requirements.txt
 
-## 4. Marco Legal
-La solución garantiza la privacidad mediante:
+# Configurar credenciales (Variable de entorno)
+export X_BEARER_TOKEN="tu_token_aqui" # Linux
+# $env:X_BEARER_TOKEN="tu_token_aqui" # Windows PowerShell
 
-   * Disociación de datos (eliminación de nombres reales).
+2. Modo: Tendencias Masivas (Búsqueda por Tema)
+Analiza el volumen general de una búsqueda configurada en config.yaml bajo la sección analisis_masivo.
 
-   * Almacenamiento exclusivo de metadatos de opinión.
+Ejecutar Ingesta: python src/main.py
 
-   * Cumplimiendo la finalidad estadística solicitada por el cliente.
+Ver Dashboard: streamlit run src/visualizacion.py
+
+3. Modo: Impacto Unitario (Análisis de Post Específico)
+Analiza un Tweet determinado y la reacción (comentarios) de la audiencia. Se configura en config.yaml bajo analisis_unitario.
+
+Ejecutar Ingesta: python src/main_unitario.py
+
+Ver Reporte Detallado: streamlit run src/detalle_tweet.py
+
+⚖️ Marco Legal y Ético
+La solución garantiza la privacidad y cumple con la Ley 25.326 de Protección de Datos Personales (Argentina) mediante:
+
+Disociación de datos: Eliminación de nombres reales y perfiles identificables.
+
+Anonimización: Almacenamiento de metadatos de opinión con fines estrictamente estadísticos.
+
+Finalidad Específica: Uso de datos públicos para el análisis del clima social solicitado.
+
+📁 Estructura del Repositorio
+src/main.py / src/main_unitario.py: Motores de extracción.
+
+src/visualizacion.py / src/detalle_tweet.py: Aplicaciones de visualización.
+
+src/config.yaml: Archivo centralizado de configuración de parámetros.
+
+data/: Almacenamiento local (excluido por .gitignore).
+
+Desarrollado para la Technicatura Superior en Ciencia de Datos e IA - ISTEA.
+
+Notas para la entrega:
+Requerimientos: Asegúrate de que tu requirements.txt esté actualizado (puedes generarlo con pip freeze > requirements.txt).
+
+Config: Recuerda que el config.yaml ahora debe tener las dos secciones (analisis_masivo y analisis_unitario) para que ambos scripts funcionen.
