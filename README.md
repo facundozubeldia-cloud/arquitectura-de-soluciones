@@ -35,7 +35,7 @@ flowchart TD
     style D1,D2 fill:#dda0dd
 ```
 
-🚀 Guía de Ejecución
+## 🚀 Guía de Ejecución
 ### 1. Preparación del Entorno
 #### Crear y activar entorno virtual
 python -m venv .venv
