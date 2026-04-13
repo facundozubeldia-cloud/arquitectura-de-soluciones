@@ -37,17 +37,17 @@ flowchart TD
 
 🚀 Guía de Ejecución
 1. Preparación del Entorno
-# Crear y activar entorno virtual
+## Crear y activar entorno virtual
 python -m venv .venv
 source .venv/bin/activate  # En Linux/Pop!_OS
 .\.venv\Scripts\activate   # En Windows
 
-# Instalación de dependencias
+## Instalación de dependencias
 pip install -r requirements.txt
 
-# Configurar credenciales (Variable de entorno)
+## Configurar credenciales (Variable de entorno)
 export X_BEARER_TOKEN="tu_token_aqui" # Linux
-# $env:X_BEARER_TOKEN="tu_token_aqui" # Windows PowerShell
+$env:X_BEARER_TOKEN="tu_token_aqui" # Windows PowerShell
 
 2. Modo: Tendencias Masivas (Búsqueda por Tema)
 Analiza el volumen general de una búsqueda configurada en config.yaml bajo la sección analisis_masivo.
