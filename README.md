@@ -1,4 +1,4 @@
-📊 ARQUITECTURA-DE-SOLUCIONES: Análisis de Sentimientos X
+## 📊 ARQUITECTURA-DE-SOLUCIONES: Análisis de Sentimientos X
 Materia: Arquitectura de Soluciones
 
 Alumnos: Facundo Zubeldia - Gonzalo Martín González Nastovich
@@ -36,34 +36,34 @@ flowchart TD
 ```
 
 🚀 Guía de Ejecución
-## 1. Preparación del Entorno
-### Crear y activar entorno virtual
+### 1. Preparación del Entorno
+#### Crear y activar entorno virtual
 python -m venv .venv
 source .venv/bin/activate  # En Linux/Pop!_OS
 .\.venv\Scripts\activate   # En Windows
 
-### Instalación de dependencias
+#### Instalación de dependencias
 pip install -r requirements.txt
 
-### Configurar credenciales (Variable de entorno)
+#### Configurar credenciales (Variable de entorno)
 export X_BEARER_TOKEN="tu_token_aqui" # Linux
 $env:X_BEARER_TOKEN="tu_token_aqui" # Windows PowerShell
 
-## 2. Modo: Tendencias Masivas (Búsqueda por Tema)
+### 2. Modo: Tendencias Masivas (Búsqueda por Tema)
 Analiza el volumen general de una búsqueda configurada en config.yaml bajo la sección analisis_masivo.
 
 Ejecutar Ingesta: python src/main.py
 
 Ver Dashboard: streamlit run src/visualizacion.py
 
-## 3. Modo: Impacto Unitario (Análisis de Post Específico)
+### 3. Modo: Impacto Unitario (Análisis de Post Específico)
 Analiza un Tweet determinado y la reacción (comentarios) de la audiencia. Se configura en config.yaml bajo analisis_unitario.
 
 Ejecutar Ingesta: python src/main_unitario.py
 
 Ver Reporte Detallado: streamlit run src/detalle_tweet.py
 
-## ⚖️ Marco Legal y Ético
+### ⚖️ Marco Legal y Ético
 La solución garantiza la privacidad y cumple con la Ley 25.326 de Protección de Datos Personales (Argentina) mediante:
 
 Disociación de datos: Eliminación de nombres reales y perfiles identificables.
@@ -72,7 +72,7 @@ Anonimización: Almacenamiento de metadatos de opinión con fines estrictamente 
 
 Finalidad Específica: Uso de datos públicos para el análisis del clima social solicitado.
 
-## 📁 Estructura del Repositorio
+### 📁 Estructura del Repositorio
 src/main.py / src/main_unitario.py: Motores de extracción.
 
 src/visualizacion.py / src/detalle_tweet.py: Aplicaciones de visualización.
